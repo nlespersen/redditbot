@@ -2,6 +2,8 @@
 import re
 import os
 import smtplib, ssl
+
+import my_posts
 from my_posts import *
 import my_reddit
 import my_email
@@ -17,10 +19,8 @@ else:
         posts_found = list(filter(None, posts_found))
 
 # Get the top 10 posts in subreddit
-redditpost = []
 Posts_redditposts = []
-subreddit = my_reddit.reddit.subreddit("dota2")
-
+subreddit = reddit.subreddit("dota2")
 for submission in subreddit.hot(limit=20):
 
     if submission.id not in posts_found:
@@ -39,15 +39,6 @@ for submission in subreddit.hot(limit=20):
                                            submission.score,
                                            submission.url,
                                            submission.id))
-
-def listToString(Post_redditposts):
-    mail_message = ""
-    for x in mail_message:
-        mail_message += x
-    return mail_message
-
-#print(listToString())
-
 
 
 print("\n")

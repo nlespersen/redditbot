@@ -1,3 +1,4 @@
+
 # Class for posts
 class Posts:
     def __init__(self, title="", comments=0, score=0, url="", sub_id=""):
@@ -12,6 +13,3 @@ class Posts:
                 "Comments: " + str(self.comments) + "\n" +
                 "Score: " + str(self.score) + "\n" +
                 "URL: " + str(self.url))
-
-    def spaces(self):
-        
