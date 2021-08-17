@@ -12,4 +12,4 @@ class Posts:
         return ("Title: " + self.title + "\n" +
                 "Comments: " + str(self.comments) + "\n" +
                 "Score: " + str(self.score) + "\n" +
-                "URL: " + str(self.url))
+                "URL: " + "https://reddit.com" + str(self.url) + "\n")
