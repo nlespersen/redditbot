@@ -4,7 +4,7 @@ import os
 import smtplib, ssl
 from my_posts import *
 from my_reddit import *
-import my_email
+from my_email import *
 from my_sql import *
 
 if __name__ == "__main__":
@@ -30,7 +30,9 @@ if __name__ == "__main__":
                                                submission.num_comments,
                                                submission.score,
                                                submission.permalink,
-                                               submission.id))
+                                               submission.id,
+                                               str(datetime.utcfromtimestamp(submission.created_utc).strftime('%Y-%m-%d'))))
+                                               #submission.created_utc))
 
                 # store already found posts
                 posts_found.append(submission.id)
@@ -47,12 +49,22 @@ if __name__ == "__main__":
         email_msg = "Subject: New Reddit posts found!" + "\n" + "\n" + "\n" + listToString
         print(email_msg)
         print("***************************************************************")
+
+        # sql insert
+        for posts in Posts_redditposts:
+            cursor.execute("insert into redditposts(SubmissionId, Title, Comments, Posted) values(?,?,?,?)",
+                           posts.sub_id,
+                           posts.title,
+                           posts.comments,
+                           posts.posted)
+            connect.commit()
+
         # Establish smtp connection to send email
         context = ssl.create_default_context()
-        with smtplib.SMTP_SSL(my_email.smtp_server, my_email.port, context=context) as server:
-            server.login(my_email.sender_email, my_email.password)
+        with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
+            server.login(sender_email, password)
             # Send email
-            server.sendmail(my_email.sender_email, my_email.receiver_email, email_msg)
+            #server.sendmail(sender_email, receiver_email, email_msg)
 
     # Write already found posts to a text file
     with open("posts_found.txt", "w") as f:

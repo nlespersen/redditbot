@@ -1,4 +1,5 @@
 import pyodbc
+from main import *
 
 connect = pyodbc.connect(
     server="127.0.0.1",
@@ -16,3 +17,17 @@ def selectReddit():
     for row in cursor.fetchall():
         print(row)
 
+# Insert into table
+#for posts in Posts_redditposts:
+
+ #   cursor.execute("insert into redditposts(SubmissionId, Title, Comments, Posted) values(?,?,?,?)",
+  #                 posts.sub_id,
+  #                 posts.title,
+  #                 posts.comments,
+  #                 posts.posted)
+  #  connect.commit()
+# commit the transaction
+selectReddit()
+
+
+connect.close()
