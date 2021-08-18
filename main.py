@@ -5,6 +5,7 @@ import smtplib, ssl
 from my_posts import *
 from my_reddit import *
 import my_email
+from my_sql import *
 
 if __name__ == "__main__":
     # Check if text file is created and reads it
