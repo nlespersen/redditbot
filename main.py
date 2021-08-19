@@ -17,8 +17,6 @@ if __name__ == "__main__":
         sql_list.append(data)
     if not sql_list:
         print("No data found in Table: redditposts")
-    else:
-        print(sql_list)
 
     # Get the top 20 posts in subreddit
     Posts_redditposts = []
@@ -35,18 +33,17 @@ if __name__ == "__main__":
                     submission.id,
                     str(datetime.utcfromtimestamp(submission.created_utc).strftime('%Y-%m-%d'))))
 
-    print(Posts_redditposts)
-
     if not Posts_redditposts:
-        print("No new posts found")
+        print("No new posts found!")
     else:
         # convert Posts_redditposts list to string
         listToString = ''.join([str(item) + "\n" for item in Posts_redditposts])
 
         # add string to email_msg
         email_msg = "Subject: New Reddit posts found!" + "\n" + "\n" + "\n" + listToString
+        print("")
+        print("Message being sent as an email:")
         print(email_msg)
-        print("***************************************************************")
 
         # Sql insert data from Posts_redditposts object
         for posts in Posts_redditposts:
@@ -58,6 +55,8 @@ if __name__ == "__main__":
             connect.commit()
 
         # Show redditpost sql table entries
+        print("")
+        print("Data inserted into sql table:")
         selectReddit()
         # Close sql connection
         connect.close()
