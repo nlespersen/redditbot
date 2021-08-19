@@ -27,7 +27,4 @@ def selectReddit():
   #                 posts.posted)
   #  connect.commit()
 # commit the transaction
-selectReddit()
-
-
-connect.close()
+#selectReddit()

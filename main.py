@@ -2,6 +2,7 @@
 import re
 import os
 import smtplib, ssl
+import my_email
 from my_posts import *
 from my_reddit import *
 from my_email import *
@@ -26,7 +27,8 @@ if __name__ == "__main__":
         if submission.id not in posts_found:
             # search for posts
             if re.search(r'\bpatch\b', submission.title, re.IGNORECASE):
-                Posts_redditposts.append(Posts(submission.title,
+                Posts_redditposts.append(Posts(#submission.title,
+                                               (submission.title[:95] + '...') if len(submission.title) > 95 else (submission.title),
                                                submission.num_comments,
                                                submission.score,
                                                submission.permalink,
@@ -50,7 +52,7 @@ if __name__ == "__main__":
         print(email_msg)
         print("***************************************************************")
 
-        # sql insert
+        # Sql insert data from Posts_redditposts object
         for posts in Posts_redditposts:
             cursor.execute("insert into redditposts(SubmissionId, Title, Comments, Posted) values(?,?,?,?)",
                            posts.sub_id,
@@ -59,12 +61,17 @@ if __name__ == "__main__":
                            posts.posted)
             connect.commit()
 
+        # Show redditpost sql table entries
+        selectReddit()
+        # Close sql connection
+        connect.close()
+
         # Establish smtp connection to send email
         context = ssl.create_default_context()
         with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
             server.login(sender_email, password)
             # Send email
-            #server.sendmail(sender_email, receiver_email, email_msg)
+            server.sendmail(sender_email, receiver_email, email_msg)
 
     # Write already found posts to a text file
     with open("posts_found.txt", "w") as f:

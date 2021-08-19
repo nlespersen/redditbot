@@ -15,5 +15,5 @@ class Posts:
                 "Score: " + str(self.score) + "\n" +
                 "Posted: " + self.posted + "\n" +
                 #"Posted: " + str(datetime.utcfromtimestamp(self.posted).strftime('%Y-%m-%d')) + "\n" +
-                "URL: " + "https://reddit.com" + str(self.url)
+                "URL: " + "https://reddit.com" + str(self.url) + "\n"
                 )
