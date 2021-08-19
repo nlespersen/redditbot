@@ -1,5 +1,4 @@
 import pyodbc
-from main import *
 
 connect = pyodbc.connect(
     server="127.0.0.1",
@@ -27,4 +26,4 @@ def selectReddit():
   #                 posts.posted)
   #  connect.commit()
 # commit the transaction
-#selectReddit()
+selectReddit()

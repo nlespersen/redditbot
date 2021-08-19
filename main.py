@@ -2,7 +2,6 @@
 import re
 import os
 import smtplib, ssl
-import my_email
 from my_posts import *
 from my_reddit import *
 from my_email import *
@@ -20,21 +19,37 @@ if __name__ == "__main__":
             posts_found = list(filter(None, posts_found))
             print(posts_found)
 
-    # Get the top 10 posts in subreddit
+    print("***************************************************************")
+    print("***************************************************************")
+
+    # Get data from SQL table redditposts
+    cursor.execute("select submissionid from redditposts")
+    sql_list = []
+    for row in cursor.fetchall():
+        sql_list.append(row)
+    if not sql_list:
+        print("No data found in Table: redditposts")
+    else:
+        print(sql_list)
+
+    print("***************************************************************")
+    print("***************************************************************")
+
+    # Get the top 20 posts in subreddit
     Posts_redditposts = []
     subreddit = reddit.subreddit("dota2")
     for submission in subreddit.hot(limit=20):
         if submission.id not in posts_found:
             # search for posts
             if re.search(r'\bpatch\b', submission.title, re.IGNORECASE):
-                Posts_redditposts.append(Posts(#submission.title,
-                                               (submission.title[:95] + '...') if len(submission.title) > 95 else (submission.title),
-                                               submission.num_comments,
-                                               submission.score,
-                                               submission.permalink,
-                                               submission.id,
-                                               str(datetime.utcfromtimestamp(submission.created_utc).strftime('%Y-%m-%d'))))
-                                               #submission.created_utc))
+                Posts_redditposts.append(Posts(  # submission.title,
+                    (submission.title[:95] + '...') if len(submission.title) > 95 else (submission.title),
+                    submission.num_comments,
+                    submission.score,
+                    submission.permalink,
+                    submission.id,
+                    str(datetime.utcfromtimestamp(submission.created_utc).strftime('%Y-%m-%d'))))
+                # submission.created_utc))
 
                 # store already found posts
                 posts_found.append(submission.id)
@@ -71,9 +86,9 @@ if __name__ == "__main__":
         with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
             server.login(sender_email, password)
             # Send email
-            server.sendmail(sender_email, receiver_email, email_msg)
+            #server.sendmail(sender_email, receiver_email, email_msg)
 
     # Write already found posts to a text file
     with open("posts_found.txt", "w") as f:
         for sub_id in posts_found:
-            f.write(sub_id+"\n")
+            f.write(sub_id + "\n")
