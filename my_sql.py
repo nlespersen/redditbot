@@ -15,15 +15,3 @@ def selectReddit():
     cursor.execute("SELECT SubmissionId, Title, Comments, Posted FROM dbo.redditposts")
     for row in cursor.fetchall():
         print(row)
-
-# Insert into table
-#for posts in Posts_redditposts:
-
- #   cursor.execute("insert into redditposts(SubmissionId, Title, Comments, Posted) values(?,?,?,?)",
-  #                 posts.sub_id,
-  #                 posts.title,
-  #                 posts.comments,
-  #                 posts.posted)
-  #  connect.commit()
-# commit the transaction
-selectReddit()
