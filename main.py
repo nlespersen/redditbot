@@ -1,6 +1,5 @@
 # Imports
 import re
-import os
 import smtplib, ssl
 from my_posts import *
 from my_reddit import *
