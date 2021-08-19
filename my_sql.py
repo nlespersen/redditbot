@@ -1,5 +1,6 @@
 import pyodbc
 
+# SQL connection settings
 connect = pyodbc.connect(
     server="127.0.0.1",
     database="PostsDB",
